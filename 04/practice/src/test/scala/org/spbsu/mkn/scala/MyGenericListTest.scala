@@ -1,7 +1,9 @@
 package org.spbsu.mkn.scala
 
 import org.scalatest.funsuite.AnyFunSuite
-import org.spbsu.mkn.scala.MyGenericList.{size, sum, fromSeq}
+import org.spbsu.mkn.scala.MyGenericList.{size, sum, fromSeq, sort}
+import scala.math.Ordering.Int
+import scala.math.Ordering.String
 
 class MyGenericListTest extends AnyFunSuite {
 
@@ -45,5 +47,17 @@ class MyGenericListTest extends AnyFunSuite {
     assertThrows[UnsupportedOperationException](sum(MyNil))
     assert(sum(fromSeq(Seq(1,2,3))) == 6)
     assert(sum(fromSeq(Seq(1))) == 1)
+  }
+
+  test("sort") {
+    assert(sort(MyNil: MyGenericList[Int]) == MyNil)
+    assert(sort(fromSeq(Seq(0))) == fromSeq(Seq(0)))
+    assert(sort(fromSeq(Seq(1,2,3))) == fromSeq(Seq(1,2,3)))
+    assert(sort(fromSeq(Seq(10, 10, 10, 10, 10))) == fromSeq(Seq(10, 10, 10, 10, 10)))
+    assert(sort(fromSeq(Seq(20, 6, 7, 6, 1))) == fromSeq(Seq(1, 6, 6, 7, 20)))
+    assert(sort(fromSeq(Seq(3, 4, 5, 7, 6, 1, 2))) == fromSeq(Seq(1, 2, 3, 4, 5, 6, 7)))
+    assert(sort(fromSeq(Seq(5, 785, 23, 2, 5, 1, 100))) == fromSeq(Seq(1, 2, 5, 5, 23, 100, 785)))
+    assert(sort(fromSeq(Seq("abcd", "zzzz", "hello", "w")))== fromSeq(Seq("abcd", "hello", "w", "zzzz")))
+    assert(sort(fromSeq(Seq("aaa", "ccc", "bbb"))) == fromSeq(Seq("aaa", "bbb", "ccc")))
   }
 }

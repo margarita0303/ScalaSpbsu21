@@ -41,6 +41,23 @@ object MyGenericList {
     case MyNil => init
     case _ => foldLeft(genList.tail)(f, f(init, genList.head))
   }
+
+  def sort[T](genList: MyGenericList[T])(implicit comparator: Ordering[T]): MyGenericList[T] = genList match {
+    case MyNil => MyNil
+    case _ =>
+      val sorted = sort(genList.tail)
+      insert(genList.head, sorted)
+  }
+
+  private def insert[T](elem: T, genList: MyGenericList[T])(implicit comparator: Ordering[T]): MyGenericList[T] = genList match {
+    case MyNil => MyCons(elem, MyNil)
+    case _ =>
+      if (comparator.compare(elem, genList.head) > 0) {
+        MyCons(genList.head, insert(elem, genList.tail))
+      } else {
+        MyCons(elem, genList)
+      }
+  }
 }
 
 case object MyNil extends MyGenericList[Nothing] {
